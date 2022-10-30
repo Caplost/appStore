@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package appStore;
+
+option go_package = "./proto/appStore;appStore";
+
+service AppStore {
+	//对外提供添加服务
+	rpc AddAppStore(AppStoreInfo) returns (Response) {}
+	rpc DeleteAppStore(AppStoreId) returns (Response) {}
+	rpc UpdateAppStore(AppStoreInfo) returns (Response) {}
+	rpc FindAppStoreByID(AppStoreId) returns (AppStoreInfo) {}
+	rpc FindAllAppStore(FindAll) returns (AllAppStore) {}
+}
+message AppStoreInfo {
+	int64 id = 1;
+}
+
+message AppStoreId {
+	int64 id = 1;
+}
+
+message FindAll {
+
+}
+
+message Response {
+	string msg =1 ;
+}
+
+message AllAppStore {
+	repeated AppStoreInfo appStore_info = 1;
+}
+
+
