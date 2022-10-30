@@ -42,6 +42,11 @@ type AppStoreService interface {
 	UpdateAppStore(ctx context.Context, in *AppStoreInfo, opts ...client.CallOption) (*Response, error)
 	FindAppStoreByID(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*AppStoreInfo, error)
 	FindAllAppStore(ctx context.Context, in *FindAll, opts ...client.CallOption) (*AllAppStore, error)
+	//添加常用的接口
+	AddInstallNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Response, error)
+	GetInstallNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Number, error)
+	AddViewNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Response, error)
+	GetViewNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Number, error)
 }
 
 type appStoreService struct {
@@ -106,6 +111,46 @@ func (c *appStoreService) FindAllAppStore(ctx context.Context, in *FindAll, opts
 	return out, nil
 }
 
+func (c *appStoreService) AddInstallNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.name, "AppStore.AddInstallNum", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *appStoreService) GetInstallNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Number, error) {
+	req := c.c.NewRequest(c.name, "AppStore.GetInstallNum", in)
+	out := new(Number)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *appStoreService) AddViewNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.name, "AppStore.AddViewNum", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *appStoreService) GetViewNum(ctx context.Context, in *AppStoreId, opts ...client.CallOption) (*Number, error) {
+	req := c.c.NewRequest(c.name, "AppStore.GetViewNum", in)
+	out := new(Number)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AppStore service
 
 type AppStoreHandler interface {
@@ -115,6 +160,11 @@ type AppStoreHandler interface {
 	UpdateAppStore(context.Context, *AppStoreInfo, *Response) error
 	FindAppStoreByID(context.Context, *AppStoreId, *AppStoreInfo) error
 	FindAllAppStore(context.Context, *FindAll, *AllAppStore) error
+	//添加常用的接口
+	AddInstallNum(context.Context, *AppStoreId, *Response) error
+	GetInstallNum(context.Context, *AppStoreId, *Number) error
+	AddViewNum(context.Context, *AppStoreId, *Response) error
+	GetViewNum(context.Context, *AppStoreId, *Number) error
 }
 
 func RegisterAppStoreHandler(s server.Server, hdlr AppStoreHandler, opts ...server.HandlerOption) error {
@@ -124,6 +174,10 @@ func RegisterAppStoreHandler(s server.Server, hdlr AppStoreHandler, opts ...serv
 		UpdateAppStore(ctx context.Context, in *AppStoreInfo, out *Response) error
 		FindAppStoreByID(ctx context.Context, in *AppStoreId, out *AppStoreInfo) error
 		FindAllAppStore(ctx context.Context, in *FindAll, out *AllAppStore) error
+		AddInstallNum(ctx context.Context, in *AppStoreId, out *Response) error
+		GetInstallNum(ctx context.Context, in *AppStoreId, out *Number) error
+		AddViewNum(ctx context.Context, in *AppStoreId, out *Response) error
+		GetViewNum(ctx context.Context, in *AppStoreId, out *Number) error
 	}
 	type AppStore struct {
 		appStore
@@ -154,4 +208,20 @@ func (h *appStoreHandler) FindAppStoreByID(ctx context.Context, in *AppStoreId, 
 
 func (h *appStoreHandler) FindAllAppStore(ctx context.Context, in *FindAll, out *AllAppStore) error {
 	return h.AppStoreHandler.FindAllAppStore(ctx, in, out)
+}
+
+func (h *appStoreHandler) AddInstallNum(ctx context.Context, in *AppStoreId, out *Response) error {
+	return h.AppStoreHandler.AddInstallNum(ctx, in, out)
+}
+
+func (h *appStoreHandler) GetInstallNum(ctx context.Context, in *AppStoreId, out *Number) error {
+	return h.AppStoreHandler.GetInstallNum(ctx, in, out)
+}
+
+func (h *appStoreHandler) AddViewNum(ctx context.Context, in *AppStoreId, out *Response) error {
+	return h.AppStoreHandler.AddViewNum(ctx, in, out)
+}
+
+func (h *appStoreHandler) GetViewNum(ctx context.Context, in *AppStoreId, out *Number) error {
+	return h.AppStoreHandler.GetViewNum(ctx, in, out)
 }
